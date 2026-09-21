@@ -1,17 +1,40 @@
 {
-  "version": 8,
+  "version": 12,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 4,
+    "patch": 0
+  },
   "configurePresets": [
     {
-      "name": "GCC 10.3.0 x86_64-w64-mingw32 (mingw64)",
-      "displayName": "GCC 10.3.0 x86_64-w64-mingw32 (mingw64)",
-      "description": "Using compilers: C = C:\\msys64\\mingw64\\bin\\gcc.exe, CXX = C:\\msys64\\mingw64\\bin\\g++.exe",
-      "generator": "MinGW Makefiles",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "name": "gcc-base",
+      "displayName": "GCC LATEST BASE",
+      "description": "Using latest compilers",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
-        "CMAKE_C_COMPILER": "C:/msys64/mingw64/bin/gcc.exe",
-        "CMAKE_CXX_COMPILER": "C:/msys64/mingw64/bin/g++.exe",
+        "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe"
+      }
+    },
+    {
+      "name": "gcc-debug",
+      "displayName": "GCC LATEST (Debug)",
+      "description": "Debug build using the newly updated GCC compiler",
+      "inherits": "gcc-base",
+      "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "run-tests",
+      "configurePreset": "gcc-debug",
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
       }
     }
   ]

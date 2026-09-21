@@ -1,10 +1,10 @@
-#include <iostream>
-#include "vector.h"
+import vector;
+import std;
 
 int main()
 {
-  geometry::vector v;
-  v[0] = 1.;
-  v[1] = 1.;
-  std::cout << "v.length() = " << v.length() << "\n";
+  geom::vector v{};
+  v[geom::coord_x] = 1.;
+  v[geom::coord_y] = 1.;
+  std::cout << "v.magnitude() = " << v.magnitude() << "\n";
 }
