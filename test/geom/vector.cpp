@@ -2,7 +2,7 @@
 
 import vector;
 
-TEST_CASE ("default vector is zero vector", "[geom::vector]") {
+TEST_CASE ("Default vector is zero vector", "[geom::vector]") {
   const geom::vector v{};
 
   REQUIRE (v[geom::coord_x] == .0);
@@ -11,25 +11,45 @@ TEST_CASE ("default vector is zero vector", "[geom::vector]") {
   REQUIRE (v.magnitude() == .0);
 }
 
-TEST_CASE ("vector magnitude formula", "[geom::vector]") {
+TEST_CASE ("Vector magnitude formula", "[geom::vector]") {
   geom::coords_t coords{3., 4., 0.};
 
   REQUIRE (geom::vector::calc_magnitude(coords) == 5.);
 }
 
-TEST_CASE ("vector magnitude calculation", "[geom::vector]") {
+TEST_CASE ("Vector magnitude calculation", "[geom::vector]") {
   geom::vector v{geom::coords_t{3., 4., 0.}};
 
   REQUIRE (v.magnitude() == 5.);
 }
 
-TEST_CASE ("vector magnitude re-calculation", "[geom::vector]") {
+TEST_CASE ("Vector magnitude re-calculation", "[geom::vector]") {
   geom::vector v{geom::coords_t{3., 4., 0.}};
 
   v[geom::coord_x] *= 2.;
   v[geom::coord_y] = 8.;
 
   REQUIRE (v.magnitude() == 10.);
+}
+
+TEST_CASE ("Range check for index", "[geom::vector]") {
+  geom::vector v{};
+
+  REQUIRE_THROWS (v[-1] == 0.);
+  REQUIRE_THROWS (v[-1] += 1.);
+
+  REQUIRE_THROWS ([&v]()
+  {
+    auto v_coord = v[geom::coord_z + 1];
+    v_coord = 0.;
+  }());
+}
+
+TEST_CASE ("Range check for index #2", "[geom::vector][!shouldfail]") {
+  geom::vector v{};
+
+  auto v_coord = v[geom::coord_z + 1];
+  v_coord *= 0.;
 }
 
 SCENARIO ("Vector's magnitude follows coordinates' changes", "[geom::vector]")

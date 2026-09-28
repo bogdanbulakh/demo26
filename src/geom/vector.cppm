@@ -31,16 +31,21 @@ export namespace geom
 
     struct coords_setter
     {
-      vector & target_vector;
-      std::size_t target_coord_idx;
+      coords_setter(vector & target_vector, std::size_t target_coord_idx);
 
       operator double() const;
       auto operator= (double val) -> coords_setter &;
       auto operator+= (double val) -> coords_setter &;
       auto operator*= (double val) -> coords_setter &;
 
+    private:
+      vector & target_vector;
+      std::size_t target_coord_idx;
+
       bool no_assignment(double val);
       void post_assignment();
     };
+
+    void throw_if_idx_out_of_range(std::size_t coord_idx) const;
   };
 }

@@ -1,3 +1,7 @@
+module;
+
+//#include <stdexcept>
+
 module vector;
 
 import std;
@@ -27,16 +31,30 @@ namespace geom
   auto vector::operator[](std::size_t coord_idx) const
     -> const double &
   {
+    throw_if_idx_out_of_range(coord_idx);
+
     return coords[coord_idx];
   }
 
   auto vector::operator[](std::size_t coord_idx)
     -> coords_setter
   {
-    return coords_setter {
-      .target_vector = *this,
-      .target_coord_idx = coord_idx
-    };
+    return coords_setter {*this, coord_idx};
+
+    // works only for aggregate types (no user ctor, all public, no vfunc):
+    //
+    // return coords_setter {
+    //   .target_vector = *this,
+    //   .target_coord_idx = coord_idx
+    // };
+  }
+
+  vector::coords_setter::coords_setter(
+    vector & target_vector, std::size_t target_coord_idx)
+    : target_vector(target_vector),
+      target_coord_idx(target_coord_idx)
+  {
+    target_vector.throw_if_idx_out_of_range(target_coord_idx);
   }
 
   vector::coords_setter::operator double() const
@@ -78,5 +96,13 @@ namespace geom
   {
     target_vector.magnitude_cached =
       vector::calc_magnitude(target_vector.coords);
+  }
+
+  void vector::throw_if_idx_out_of_range(std::size_t coord_idx) const
+  {
+    if (coord_idx < geom::coord_x || coord_idx > geom::coord_z)
+    {
+      throw std::out_of_range("Index out of range");
+    }
   }
 }
