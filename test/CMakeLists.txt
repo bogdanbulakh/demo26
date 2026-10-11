@@ -1,6 +1,6 @@
 add_executable(
   demo_tests
-    geom/vector.cpp
+    math/vector.cpp
   )
 
 include(FetchContent)

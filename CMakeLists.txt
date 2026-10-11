@@ -20,11 +20,18 @@ add_subdirectory(test)
 include(CTest)
 
 set(modules_list
-  src/geom/vector.cppm
+  src/util/property/property-getter.cppm
+  src/util/property/property-setter.cppm
+  src/util/property/property-readonly.cppm
+  src/util/property/property-full.cppm
+  src/util/property/property-indexed.cppm
+  src/util/property/property-item.cppm
+  src/util/property/property.cppm
+  src/util/enums.cppm
+  src/math/vector.cppm
 )
 
 set(src_list
-  src/geom/vector.cpp
 )
 
 add_library(demo_lib STATIC)

@@ -26,6 +26,15 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
+    },
+    {
+      "name": "gcc-release",
+      "displayName": "GCC LATEST (Release)",
+      "description": "Release build using the newly updated GCC compiler",
+      "inherits": "gcc-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
     }
   ],
   "testPresets": [
